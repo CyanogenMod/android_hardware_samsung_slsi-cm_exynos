@@ -2,6 +2,10 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+ifeq ($(BOARD_USE_VP8ENC_SUPPORT), true)
+LOCAL_CFLAGS += -DUSE_VP8ENC_SUPPORT
+endif
+
 LOCAL_SRC_FILES := \
 	ExynosVideoInterface.c \
 	dec/ExynosVideoDecoder.c \

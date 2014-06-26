@@ -711,6 +711,7 @@ static ExynosVideoErrorType MFC_Encoder_Set_EncParam (
         break;
     }
 
+#ifdef USE_VP8ENC_SUPPORT
     case VIDEO_CODING_VP8:
     {
         ExynosVideoEncVp8Param *pVp8Param = &pEncParam->codecParam.vp8;
@@ -793,6 +794,7 @@ static ExynosVideoErrorType MFC_Encoder_Set_EncParam (
         ext_ctrls.count = VP8_CTRL_NUM;
         break;
     }
+#endif
     default:
         ALOGE("[%s] Undefined codec type",__func__);
         ret = VIDEO_ERROR_BADPARAM;
@@ -1000,6 +1002,7 @@ static ExynosVideoErrorType MFC_Encoder_Set_QuantizationRange(
         minId = V4L2_CID_MPEG_VIDEO_H263_MIN_QP;
         break;
     }
+#ifdef USE_VP8ENC_SUPPORT
     case VIDEO_CODING_VP8:
     {
         if (((QpMax > 127) || (QpMax < 0)) ||
@@ -1011,6 +1014,7 @@ static ExynosVideoErrorType MFC_Encoder_Set_QuantizationRange(
         minId = V4L2_CID_MPEG_VIDEO_VP8_MIN_QP;
         break;
     }
+#endif
     default:
     {
         ALOGE("[%s] Undefined codec type",__func__);

@@ -1,3 +1,8 @@
+
+#define LOG_NDEBUG 1
+#define LOG_TAG "EXTERDISPLAY_LEGACY"
+#include <utils/Log.h>
+
 #include "ExynosHWC.h"
 #include "ExynosHWCUtils.h"
 #include "ExynosMPPModule.h"
@@ -48,8 +53,20 @@ inline bool hdmi_src_cfg_changed(exynos_mpp_img &c1, exynos_mpp_img &c2)
             c1.fh != c2.fh;
 }
 
-ExynosExternalDisplay::ExynosExternalDisplay(struct exynos5_hwc_composer_device_1_t *pdev) :
-    ExynosDisplay(1)
+ExynosExternalDisplay::ExynosExternalDisplay(struct exynos5_hwc_composer_device_1_t *pdev)
+    :   ExynosDisplay(1),
+        mMixer(-1),
+        mEnabled(false),
+        mBlanked(false),
+        mIsFbLayer(false),
+        mIsVideoLayer(false),
+        mFbStarted(false),
+        mVideoStarted(false),
+        mHasFbComposition(false),
+        mHasSkipLayer(false),
+        mUiIndex(0),
+        mVideoIndex(1),
+        mVirtualOverlayFlag(0)
 {
     mNumMPPs = 1;
     this->mHwc = pdev;
@@ -57,6 +74,8 @@ ExynosExternalDisplay::ExynosExternalDisplay(struct exynos5_hwc_composer_device_
     mUseSubtitles = false;
 
     mMPPs[0] = new ExynosMPPModule(this, HDMI_GSC_IDX);
+    memset(mMixerLayers, 0, sizeof(mMixerLayers));
+    memset(mLastLayerHandles, 0, sizeof(mLastLayerHandles));
 }
 
 ExynosExternalDisplay::~ExynosExternalDisplay()
@@ -391,10 +410,20 @@ int ExynosExternalDisplay::output(hdmi_layer_t &hl,
 
     exynos_mpp_img src_cfg;
     memset(&src_cfg, 0, sizeof(src_cfg));
-    src_cfg.x = 0;
-    src_cfg.y = 0;
-    src_cfg.w = h->stride;
-    src_cfg.h = h->height;
+
+    if (hl.id == VIDEO_LAYER_INDEX) {
+        src_cfg.x = layer.displayFrame.left;
+        src_cfg.y = layer.displayFrame.top;
+        src_cfg.w = WIDTH(layer.displayFrame);
+        src_cfg.h = HEIGHT(layer.displayFrame);
+        if (isVPSupported(layer, h->format)) {
+            src_cfg.fw = h->stride;
+            src_cfg.fh = h->vstride;
+        } else {
+            src_cfg.fw = ALIGN(mXres, 16);
+            src_cfg.fh = ALIGN(mYres, 16);
+        }
+    }
 
     exynos_mpp_img cfg;
     memset(&cfg, 0, sizeof(cfg));
@@ -403,8 +432,7 @@ int ExynosExternalDisplay::output(hdmi_layer_t &hl,
     cfg.w = WIDTH(layer.displayFrame);
     cfg.h = HEIGHT(layer.displayFrame);
 
-    if ((hl.id == VIDEO_LAYER_INDEX && ((signed int)src_cfg.x < 0 || (signed int)src_cfg.y < 0)) ||
-        (signed int)cfg.x < 0 || (signed int)cfg.y < 0 || (cfg.w > (uint32_t)mXres) || (cfg.h > (uint32_t)mYres)) {
+    if ((signed int)cfg.x < 0 || (signed int)cfg.y < 0 || (cfg.w > (uint32_t)mXres) || (cfg.h > (uint32_t)mYres)) {
         *releaseFenceFd = -1;
         if (acquireFenceFd >= 0)
             close(acquireFenceFd);
@@ -432,7 +460,7 @@ int ExynosExternalDisplay::output(hdmi_layer_t &hl,
             if (hl.id == VIDEO_LAYER_INDEX) {
                 if (isVPSupported(layer, h->format)) {
                     fmt.fmt.pix_mp.width   = h->stride;
-                    fmt.fmt.pix_mp.height  = h->height;
+                    fmt.fmt.pix_mp.height  = h->vstride;
                 } else {
                     fmt.fmt.pix_mp.width   = ALIGN(mXres, 16);
                     fmt.fmt.pix_mp.height  = ALIGN(mYres, 16);
@@ -772,7 +800,27 @@ bool ExynosExternalDisplay::isVideoOverlaySupported(hwc_layer_1_t &layer, int fo
 
     return false;
 }
+bool ExynosExternalDisplay::isLayerBetweenGLES(hwc_display_contents_1_t* contents, size_t layerIndex)
+{
+    bool beforeGLES = false, afterGLES = false;
+    for (size_t i = 0; i < layerIndex; i++) {
+        hwc_layer_1_t &layer = contents->hwLayers[i];
+        if (layer.compositionType == HWC_FRAMEBUFFER) {
+            beforeGLES = true;
+            break;
+        }
+    }
 
+    for (size_t i = layerIndex; i < contents->numHwLayers; i++) {
+        hwc_layer_1_t &layer = contents->hwLayers[i];
+        if (layer.compositionType == HWC_FRAMEBUFFER || layer.compositionType == HWC_FRAMEBUFFER_TARGET) {
+            afterGLES = true;
+            break;
+        }
+    }
+
+    return (beforeGLES & afterGLES);
+}
 int ExynosExternalDisplay::prepare(hwc_display_contents_1_t* contents)
 {
     hwc_layer_1_t *video_layer = NULL;
@@ -867,16 +915,22 @@ int ExynosExternalDisplay::prepare(hwc_display_contents_1_t* contents)
         hwc_layer_1_t &layer = contents->hwLayers[i];
         if (layer.compositionType == HWC_FRAMEBUFFER)
             mHasFbComposition = true;
+        if (layer.compositionType == HWC_OVERLAY && isLayerBetweenGLES(contents, i))
+            layer.compositionType = HWC_FRAMEBUFFER;
     }
     return 0;
 }
 
+int ExynosExternalDisplay::clearDisplay()
+{
+    return -1;
+}
 int ExynosExternalDisplay::set(hwc_display_contents_1_t* contents)
 {
     hwc_layer_1_t *fb_layer = NULL;
     hwc_layer_1_t *video_layer = NULL;
 
-    if (!mEnabled) {
+    if (!mEnabled || mBlanked) {
         for (size_t i = 0; i < contents->numHwLayers; i++) {
             hwc_layer_1_t &layer = contents->hwLayers[i];
             if (layer.acquireFenceFd >= 0) {
@@ -1002,9 +1056,11 @@ int ExynosExternalDisplay::set(hwc_display_contents_1_t* contents)
             if (!layer.handle)
                 continue;
 
-            if (!mHasFbComposition && !mHasSkipLayer)
+            if (!mHasFbComposition && !mHasSkipLayer) {
+                if(layer.acquireFenceFd > 0)
+                    close(layer.acquireFenceFd);
                 continue;
-
+            }
             dumpLayer(&layer);
 
             fb_layer = &layer;

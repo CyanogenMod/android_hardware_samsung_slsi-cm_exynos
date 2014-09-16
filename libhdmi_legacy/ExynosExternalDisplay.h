@@ -66,6 +66,8 @@ class ExynosExternalDisplay : public ExynosDisplay {
         bool isVideoOverlaySupported(hwc_layer_1_t &layer, int format);
         bool isVPSupported(hwc_layer_1_t &layer, int format);
 
+        bool isLayerBetweenGLES(hwc_display_contents_1_t* contents, size_t layerIndex);
+        int clearDisplay();
         virtual int openHdmi();
         virtual int blank();
         virtual int prepare(hwc_display_contents_1_t* contents);
@@ -89,7 +91,6 @@ class ExynosExternalDisplay : public ExynosDisplay {
         int                     mUiIndex;
         int                     mVideoIndex;
         bool                    mUseSubtitles;
-        int                     mVideoPlaybackStatus;
         const void              *mLastLayerHandles[NUM_VIRT_OVER_HDMI];
         int                     mVirtualOverlayFlag;
 };

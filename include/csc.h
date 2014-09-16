@@ -526,6 +526,8 @@ CSC_ERRORCODE csc_convert(
 CSC_ERRORCODE csc_convert_with_rotation(
     void *handle, int rotation, int flip_horizontal, int flip_vertical);
 
+CSC_ERRORCODE csc_set_eq_property(void *handle);
+
 #ifdef __cplusplus
 }
 #endif

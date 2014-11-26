@@ -106,7 +106,8 @@ LOCAL_C_INCLUDES += \
 	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libdisplaymodule \
 	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhdmimodule \
 	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhwcutilsmodule \
-	$(TOP)/hardware/samsung_slsi-cm/exynos/libmpp
+	$(TOP)/hardware/samsung_slsi-cm/exynos/libmpp \
+	$(TOP)/system/core/libsync/include
 
 LOCAL_ADDITIONAL_DEPENDENCIES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr

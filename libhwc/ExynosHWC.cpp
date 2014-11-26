@@ -44,6 +44,7 @@ namespace android {
 #ifdef USES_VIRTUAL_DISPLAY
 #include "ExynosVirtualDisplayModule.h"
 #endif
+#include <sync/sync.h>
 
 void doPSRExit(struct exynos5_hwc_composer_device_1_t *pdev)
 {

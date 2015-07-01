@@ -21,5 +21,5 @@ LOCAL_PRELINK_MODULE := false
 LOCAL_SHARED_LIBRARIES := liblog
 LOCAL_SRC_FILES := libcec.c
 
-LOCAL_MODULE := libcec
+LOCAL_MODULE := libcec-exynos
 include $(BUILD_SHARED_LIBRARY)

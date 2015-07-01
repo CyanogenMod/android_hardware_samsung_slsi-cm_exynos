@@ -86,7 +86,7 @@ else
 	LOCAL_C_INCLUDES += $(LOCAL_PATH)/../libhdmi_legacy
 endif
 ifeq ($(BOARD_USES_CEC),true)
-	LOCAL_SHARED_LIBRARIES += libcec
+	LOCAL_SHARED_LIBRARIES += libcec-exynos
 	LOCAL_CFLAGS += -DUSES_CEC
 endif
 endif

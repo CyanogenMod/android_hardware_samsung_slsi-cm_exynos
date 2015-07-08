@@ -1811,8 +1811,13 @@ static ExynosVideoErrorType MFC_Decoder_Enqueue_Inbuf(
     }
 
     if ((((OMX_BUFFERHEADERTYPE *)pPrivate)->nFlags & OMX_BUFFERFLAG_EOS) == OMX_BUFFERFLAG_EOS) {
+#ifdef SOC_EXYNOS5430
+        buf.reserved2 = LAST_FRAME;
+        ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.reserved2);
+#else
         buf.input = LAST_FRAME;
         ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.input);
+#endif
     }
 
     signed long long sec  = (((OMX_BUFFERHEADERTYPE *)pPrivate)->nTimeStamp / 1E6);
@@ -2362,8 +2367,13 @@ static ExynosVideoErrorType MFC_Decoder_ExtensionEnqueue_Inbuf(
     }
 
     if ((((OMX_BUFFERHEADERTYPE *)pPrivate)->nFlags & OMX_BUFFERFLAG_EOS) == OMX_BUFFERFLAG_EOS) {
+#ifdef SOC_EXYNOS5430
+        buf.reserved2 = LAST_FRAME;
+        ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.reserved2);
+#else
         buf.input = LAST_FRAME;
         ALOGD("%s: OMX_BUFFERFLAG_EOS => LAST_FRAME: 0x%x", __func__, buf.input);
+#endif
     }
 
     signed long long sec  = (((OMX_BUFFERHEADERTYPE *)pPrivate)->nTimeStamp / 1E6);

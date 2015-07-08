@@ -166,9 +166,11 @@ bool isXAligned(const hwc_layer_1_t &layer, int format)
 int getDrmMode(int flags)
 {
     if (flags & GRALLOC_USAGE_PROTECTED) {
+#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
         if (flags & GRALLOC_USAGE_PRIVATE_NONSECURE)
             return NORMAL_DRM;
         else
+#endif
             return SECURE_DRM;
     } else {
         return NO_DRM;

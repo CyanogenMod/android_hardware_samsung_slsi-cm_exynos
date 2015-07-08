@@ -518,14 +518,20 @@ int ExynosMPP::reallocateBuffers(private_handle_t *src_handle, exynos_mpp_img &d
 
 #ifdef USE_FB_PHY_LINEAR
     usage |= GRALLOC_USAGE_PROTECTED;
+#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
     usage &= ~GRALLOC_USAGE_PRIVATE_NONSECURE;
+#endif
 #else
     if (getDrmMode(src_handle->flags) == SECURE_DRM) {
         usage |= GRALLOC_USAGE_PROTECTED;
+#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
         usage &= ~GRALLOC_USAGE_PRIVATE_NONSECURE;
+#endif
     } else if (getDrmMode(src_handle->flags) == NORMAL_DRM) {
         usage |= GRALLOC_USAGE_PROTECTED;
+#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
         usage |= GRALLOC_USAGE_PRIVATE_NONSECURE;
+#endif
     }
 #endif
 

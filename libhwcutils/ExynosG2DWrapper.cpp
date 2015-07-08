@@ -590,8 +590,12 @@ bool ExynosG2DWrapper::InitSecureG2D()
             GRALLOC_USAGE_SW_WRITE_NEVER |
             GRALLOC_USAGE_HW_COMPOSER |
             GRALLOC_USAGE_PROTECTED |
+#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
             GRALLOC_USAGE_PHYSICALLY_LINEAR |
             GRALLOC_USAGE_PRIVATE_NONSECURE;
+#else
+            GRALLOC_USAGE_PHYSICALLY_LINEAR;
+#endif
         alloc_device_t* allocDevice = mVirtualDisplay->mAllocDevice;
         int ret = allocDevice->alloc(allocDevice,
                 mVirtualDisplay->mWidth, mVirtualDisplay->mHeight,
@@ -694,7 +698,9 @@ int ExynosG2DWrapper::exynos5_g2d_buf_alloc(hwc_display_contents_1_t* contents)
             GRALLOC_USAGE_SW_WRITE_NEVER | GRALLOC_USAGE_PHYSICALLY_LINEAR |
             GRALLOC_USAGE_HW_COMPOSER;
     usage |= GRALLOC_USAGE_PROTECTED;
+#ifdef GRALLOC_USAGE_PRIVATE_NONSECURE
     usage &= ~GRALLOC_USAGE_PRIVATE_NONSECURE;
+#endif
 
     for (int i = 0; i < mDisplay->mG2dLayers; i++) {
         int lay_idx = mDisplay->mG2d.ovly_lay_idx[i];

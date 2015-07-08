@@ -1,6 +1,38 @@
 #include "ExynosHWCUtils.h"
 #include "ExynosMPPModule.h"
 
+#ifndef V4L2_DV_720P60_SB_HALF
+#define V4L2_DV_720P60_SB_HALF 23
+#endif
+
+#ifndef V4L2_DV_720P50_SB_HALF
+#define V4L2_DV_720P50_SB_HALF 29
+#endif
+
+#ifndef V4L2_DV_1080P60_SB_HALF
+#define V4L2_DV_1080P60_SB_HALF 40
+#endif
+
+#ifndef V4L2_DV_1080P30_SB_HALF
+#define V4L2_DV_1080P30_SB_HALF 43
+#endif
+
+#ifndef V4L2_DV_720P60_TB
+#define V4L2_DV_720P60_TB 24
+#endif
+
+#ifndef V4L2_DV_720P50_TB
+#define V4L2_DV_720P50_TB 30
+#endif
+
+#ifndef V4L2_DV_1080P60_TB
+#define V4L2_DV_1080P60_TB 41
+#endif
+
+#ifndef V4L2_DV_1080P30_TB
+#define V4L2_DV_1080P30_TB 44
+#endif
+
 void dumpHandle(private_handle_t *h)
 {
     ALOGV("\t\tformat = %d, width = %u, height = %u, stride = %u, vstride = %u",

@@ -4,6 +4,10 @@
 #include "ExynosHWC.h"
 #include "ExynosDisplay.h"
 
+#ifndef V4L2_DV_1080P60
+#define V4L2_DV_1080P60 18
+#endif
+
 #define S3D_ERROR -1
 #define HDMI_PRESET_DEFAULT V4L2_DV_1080P60
 #define HDMI_PRESET_ERROR -1

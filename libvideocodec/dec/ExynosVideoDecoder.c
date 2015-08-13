@@ -812,10 +812,15 @@ static ExynosVideoErrorType MFC_Decoder_Enable_DualDPBMode(void *pHandle)
         goto EXIT;
     }
 
+#ifdef V4L2_CID_MPEG_MFC_SET_DUAL_DPB_MODE
     if (exynos_v4l2_s_ctrl(pCtx->hDec, V4L2_CID_MPEG_MFC_SET_DUAL_DPB_MODE, 1) != 0) {
         ret = VIDEO_ERROR_APIFAIL;
         goto EXIT;
     }
+#else
+    ret = VIDEO_ERROR_NOSUPPORT;
+    goto EXIT;
+#endif
 
 EXIT:
     return ret;

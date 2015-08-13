@@ -2953,11 +2953,16 @@ ExynosVideoErrorType MFC_Exynos_Video_GetInstInfo_Encoder(
 
     pVideoInstInfo->specificInfo.enc.bRGBSupport = (mode & (0x1 << 0))? VIDEO_TRUE:VIDEO_FALSE;
     if (mode & (0x1 << 1)) {
+#ifdef V4L2_CID_MPEG_MFC_GET_EXTRA_BUFFER_SIZE
         if (exynos_v4l2_g_ctrl(hEnc, V4L2_CID_MPEG_MFC_GET_EXTRA_BUFFER_SIZE, &(pVideoInstInfo->specificInfo.enc.nSpareSize)) != 0) {
             ALOGE("%s: g_ctrl is failed(V4L2_CID_MPEG_MFC_GET_EXTRA_BUFFER_SIZE)", __func__);
             ret = VIDEO_ERROR_APIFAIL;
             goto EXIT;
         }
+#else
+        ret = VIDEO_ERROR_NOSUPPORT;
+        goto EXIT;
+#endif
     }
 
     __Set_SupportFormat(pVideoInstInfo);

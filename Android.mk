@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+ifeq ($(TARGET_SLSI_VARIANT),cm)
+
 common_exynos_dirs := \
 	libstagefrighthw \
 	libcsc \
@@ -63,3 +65,5 @@ common_exynos_dirs += \
 endif
 
 include $(call all-named-subdir-makefiles,$(common_exynos_dirs))
+
+endif

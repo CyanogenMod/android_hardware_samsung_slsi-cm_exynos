@@ -45,7 +45,7 @@ endif
 ifeq ($(BOARD_USES_FB_PHY_LINEAR),true)
 	LOCAL_CFLAGS += -DUSE_FB_PHY_LINEAR
 	LOCAL_SHARED_LIBRARIES += libfimg
-	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/exynos/libfimg4x
+	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi-cm/exynos/libfimg4x
 endif
 
 ifeq ($(BOARD_USES_FIMC), true)
@@ -56,12 +56,12 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libhwc \
 	$(LOCAL_PATH)/../libhwcutils \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
-	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
-	$(TOP)/hardware/samsung_slsi/exynos/libmpp \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcmodule \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcutilsmodule
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include \
+	$(TOP)/hardware/samsung_slsi-cm/exynos/libexynosutils \
+	$(TOP)/hardware/samsung_slsi-cm/exynos/libmpp \
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/include \
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhwcmodule \
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhwcutilsmodule
 
 LOCAL_SRC_FILES := \
 	ExynosDisplay.cpp \

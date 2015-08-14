@@ -42,12 +42,12 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../libhwcutils \
 	$(LOCAL_PATH)/../libdisplay \
 	$(LOCAL_PATH)/../libhwc \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
-	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcmodule \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcutilsmodule \
-	$(TOP)/hardware/samsung_slsi/exynos/libmpp
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include \
+	$(TOP)/hardware/samsung_slsi-cm/exynos/libexynosutils \
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/include \
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhwcmodule \
+	$(TOP)/hardware/samsung_slsi-cm/$(TARGET_SOC)/libhwcutilsmodule \
+	$(TOP)/hardware/samsung_slsi-cm/exynos/libmpp
 
 LOCAL_SRC_FILES := \
 	ExynosExternalDisplay.cpp

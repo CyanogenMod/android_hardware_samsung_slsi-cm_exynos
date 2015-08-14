@@ -19,11 +19,11 @@ LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libexynosutils libexynosv4l2
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../include \
-	$(TOP)/hardware/samsung_slsi/exynos/include \
-	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
-	$(TOP)/hardware/samsung_slsi/exynos3/include \
-	$(TOP)/hardware/samsung_slsi/exynos4/include \
-	$(TOP)/hardware/samsung_slsi/exynos5/include
+	$(TOP)/hardware/samsung_slsi-cm/exynos/include \
+	$(TOP)/hardware/samsung_slsi-cm/exynos/libexynosutils \
+	$(TOP)/hardware/samsung_slsi-cm/exynos3/include \
+	$(TOP)/hardware/samsung_slsi-cm/exynos4/include \
+	$(TOP)/hardware/samsung_slsi-cm/exynos5/include
 
 LOCAL_SRC_FILES := MppFactory.cpp
 LOCAL_MODULE_TAGS := eng

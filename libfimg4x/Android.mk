@@ -26,8 +26,8 @@ LOCAL_SRC_FILES:= \
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../include \
-	hardware/samsung_slsi/$(TARGET_SOC)/include \
-	hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include
+	hardware/samsung_slsi-cm/$(TARGET_SOC)/include \
+	hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include
 
 LOCAL_SHARED_LIBRARIES:= liblog libutils libbinder
 

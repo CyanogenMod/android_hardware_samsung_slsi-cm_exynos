@@ -8,7 +8,7 @@ LOCAL_SRC_FILES := \
 	csc.c
 
 LOCAL_C_INCLUDES := \
-	hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
+	hardware/samsung_slsi-cm/$(TARGET_BOARD_PLATFORM)/include \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libexynosutils
 

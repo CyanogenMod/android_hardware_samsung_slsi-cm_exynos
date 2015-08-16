@@ -75,7 +75,8 @@ int exynos_subdev_get_node_num(const char *devname, int oflag, ...)
     va_list ap;
     FILE *stream_fd;
     char filename[64], name[64];
-    int size, i = 0;
+    int i = 0;
+    char *rc = NULL;
 
     do {
         if (i > (SUBDEV_MAX - 128))
@@ -101,11 +102,11 @@ int exynos_subdev_get_node_num(const char *devname, int oflag, ...)
             }
 
             /* read sysfs entry for device name */
-            size = (int)fgets(name, sizeof(name), stream_fd);
+            rc = fgets(name, sizeof(name), stream_fd);
             fclose(stream_fd);
 
             /* check read size */
-            if (size == 0) {
+            if (rc == NULL) {
                 ALOGE("failed to read sysfs entry for subdev");
             } else {
                 /* matched */
@@ -135,7 +136,8 @@ int exynos_subdev_open_devname(const char *devname, int oflag, ...)
     va_list ap;
     FILE *stream_fd;
     char filename[64], name[64];
-    int size, i = 0;
+    int i = 0;
+    char *rc = NULL;
 
     do {
         if (i > (SUBDEV_MAX - 128))
@@ -161,11 +163,11 @@ int exynos_subdev_open_devname(const char *devname, int oflag, ...)
             }
 
             /* read sysfs entry for device name */
-            size = (int)fgets(name, sizeof(name), stream_fd);
+            rc = fgets(name, sizeof(name), stream_fd);
             fclose(stream_fd);
 
             /* check read size */
-            if (size == 0) {
+            if (rc == NULL) {
                 ALOGE("failed to read sysfs entry for subdev");
             } else {
                 /* matched */

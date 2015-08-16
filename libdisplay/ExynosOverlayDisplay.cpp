@@ -968,7 +968,7 @@ void ExynosOverlayDisplay::determineBandwidthSupport(hwc_display_contents_1_t *c
             pixel_used[dma_ch_idx] += pixels_needed;
             win_idx++;
             win_idx = (win_idx == mFirstFb) ? (win_idx + 1) : win_idx;
-            win_idx = min(win_idx, NUM_HW_WINDOWS - 1);
+            win_idx = min(win_idx, static_cast<uint32_t>(NUM_HW_WINDOWS - 1));
             windows_left--;
             if (gsc_required) {
                 mGscUsed = true;

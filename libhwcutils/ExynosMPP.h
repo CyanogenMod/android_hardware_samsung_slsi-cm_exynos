@@ -57,7 +57,7 @@ class ExynosMPP {
         int                             mMidBufFence[NUM_GSC_DST_BUFS];
         size_t                          mCurrentBuf;
         int                             mGSCMode;
-        uint32_t                        mLastGSCLayerHandle;
+        buffer_handle_t                 mLastGSCLayerHandle;
         int                             mS3DMode;
 
     protected:

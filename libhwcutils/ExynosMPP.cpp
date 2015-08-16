@@ -25,7 +25,7 @@ ExynosMPP::ExynosMPP(ExynosDisplay *display, int gscIndex)
     }
     mCurrentBuf = 0;
     mGSCMode = 0;
-    mLastGSCLayerHandle = -1;
+    mLastGSCLayerHandle = NULL;
     mS3DMode = 0;
     mppFact = NULL;
     libmpp = NULL;
@@ -677,7 +677,7 @@ int ExynosMPP::processM2M(hwc_layer_1_t &layer, int dst_format, hwc_frect_t *sou
         mLastGSCLayerHandle = 0;
     }
 
-    if (!reconfigure && (mLastGSCLayerHandle == (uint32_t)layer.handle)) {
+    if (!reconfigure && (mLastGSCLayerHandle == layer.handle)) {
         ALOGV("[USE] GSC_SKIP_DUPLICATE_FRAME_PROCESSING\n");
         if (layer.acquireFenceFd >= 0)
             close(layer.acquireFenceFd);
@@ -693,7 +693,7 @@ int ExynosMPP::processM2M(hwc_layer_1_t &layer, int dst_format, hwc_frect_t *sou
         }
         return 0;
     } else {
-        mLastGSCLayerHandle = (uint32_t)layer.handle;
+        mLastGSCLayerHandle = layer.handle;
     }
 #ifdef USES_VIRTUAL_DISPLAY
     }
@@ -895,7 +895,7 @@ void ExynosMPP::cleanupM2M()
     memset(mMidBuffers, 0, sizeof(mMidBuffers));
     mCurrentBuf = 0;
     mGSCMode = 0;
-    mLastGSCLayerHandle = 0;
+    mLastGSCLayerHandle = NULL;
     
     for (size_t i = 0; i < NUM_GSC_DST_BUFS; i++) {
         mDstBufFence[i] = -1;

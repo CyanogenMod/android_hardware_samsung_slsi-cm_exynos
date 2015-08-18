@@ -1,5 +1,5 @@
-#include "../../exynos/kernel-3.10-headers/videodev2.h"
-#include "../../exynos/kernel-3.10-headers/v4l2-dv-timings.h"
+#include <linux/videodev2.h>
+#include <linux/v4l2-dv-timings.h>
 #include "decon_tv.h"
 
 const struct v4l2_dv_timings dv_timings[] = {

@@ -1,5 +1,5 @@
-#include "../../exynos/kernel-3.10-headers/videodev2.h"
-#include "../../exynos/kernel-3.10-headers/v4l2-dv-timings.h"
+#include <linux/videodev2.h>
+#include <linux/v4l2-dv-timings.h>
 
 const struct v4l2_dv_timings dv_timings[] = {
      V4L2_DV_BT_DMT_640X480P60,

@@ -528,6 +528,8 @@ CSC_ERRORCODE csc_convert_with_rotation(
 
 CSC_ERRORCODE csc_set_eq_property(void *handle);
 
+CSC_ERRORCODE csc_set_filter_property(void *handle);
+
 #ifdef __cplusplus
 }
 #endif

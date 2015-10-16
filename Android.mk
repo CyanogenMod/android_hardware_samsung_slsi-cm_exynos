@@ -26,8 +26,7 @@ common_exynos_dirs := \
 	libvideocodec \
 	libmpp \
 	libhwcutils \
-	libdisplay \
-	exyrngd
+	libdisplay
 
 ifneq ($(BOARD_TV_PRIMARY), true)
 common_exynos_dirs += \

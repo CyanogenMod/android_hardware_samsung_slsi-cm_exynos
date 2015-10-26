@@ -26,6 +26,7 @@
  *   2012.02.09: Initial Version
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

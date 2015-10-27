@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>

@@ -20,6 +20,7 @@
 #define LOG_NDEBUG 0
 #define LOG_TAG "SKIA"
 #include <utils/Log.h>
+#include <string.h>
 
 #include "FimgApi.h"
 

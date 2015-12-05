@@ -88,7 +88,9 @@ ifeq ($(BOARD_USES_VIRTUAL_DISPLAY), true)
 		$(TOP)/hardware/samsung_slsi-cm/exynos/libfimg4x
 	LOCAL_SHARED_LIBRARIES += libfimg libMcClient
 	LOCAL_STATIC_LIBRARIES := libsecurepath
+ifneq ($(BOARD_USES_FB_PHY_LINEAR),true)
 	LOCAL_SRC_FILES += ExynosG2DWrapper.cpp
+endif
 endif
 
 LOCAL_MODULE_TAGS := eng

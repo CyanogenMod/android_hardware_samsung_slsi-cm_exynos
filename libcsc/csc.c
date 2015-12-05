@@ -136,7 +136,11 @@ static CSC_ERRORCODE conv_sw_src_argb888(
         break;
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
+#ifdef __aarch64__
+        csc_ARGB8888_to_YUV420SP(
+#else
         csc_ARGB8888_to_YUV420SP_NEON(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
             (unsigned char *)handle->dst_buffer.planes[CSC_UV_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_RGB_PLANE],
@@ -172,12 +176,20 @@ static CSC_ERRORCODE conv_sw_src_nv12t(
     switch (handle->dst_format.color_format) {
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_P_M:
+#ifdef __aarch64__
+        csc_tiled_to_linear_y(
+#else
         csc_tiled_to_linear_y_neon(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_Y_PLANE],
             handle->src_format.width,
             handle->src_format.height);
+#ifdef __aarch64__
+        csc_tiled_to_linear_uv_deinterleave(
+#else
         csc_tiled_to_linear_uv_deinterleave_neon(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_U_PLANE],
             (unsigned char *)handle->dst_buffer.planes[CSC_V_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_UV_PLANE],
@@ -187,12 +199,20 @@ static CSC_ERRORCODE conv_sw_src_nv12t(
         break;
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP:
     case HAL_PIXEL_FORMAT_EXYNOS_YCbCr_420_SP_M:
+#ifdef __aarch64__
+        csc_tiled_to_linear_y(
+#else
         csc_tiled_to_linear_y_neon(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_Y_PLANE],
             handle->src_format.width,
             handle->src_format.height);
+#ifdef __aarch64__
+        csc_tiled_to_linear_uv(
+#else
         csc_tiled_to_linear_uv_neon(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_UV_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_UV_PLANE],
             handle->src_format.width,
@@ -236,7 +256,11 @@ static CSC_ERRORCODE conv_sw_src_yuv420p(
         memcpy((unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
                (unsigned char *)handle->src_buffer.planes[CSC_Y_PLANE],
                handle->src_format.width * handle->src_format.height);
+#ifdef __aarch64__
+        csc_interleave_memcpy(
+#else
         csc_interleave_memcpy_neon(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_UV_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_U_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_V_PLANE],
@@ -280,7 +304,11 @@ static CSC_ERRORCODE conv_sw_src_yvu420p(
         memcpy((unsigned char *)handle->dst_buffer.planes[CSC_Y_PLANE],
                (unsigned char *)handle->src_buffer.planes[CSC_Y_PLANE],
                handle->src_format.width * handle->src_format.height);
+#ifdef __aarch64__
+        csc_interleave_memcpy(
+#else
         csc_interleave_memcpy_neon(
+#endif
             (unsigned char *)handle->dst_buffer.planes[CSC_UV_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_V_PLANE],
             (unsigned char *)handle->src_buffer.planes[CSC_U_PLANE],

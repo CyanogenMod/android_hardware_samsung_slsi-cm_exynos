@@ -22,8 +22,6 @@ LOCAL_CFLAGS :=
 
 LOCAL_MODULE := libcsc
 
-LOCAL_MULTILIB := 32
-
 LOCAL_ARM_MODE := arm
 
 LOCAL_STATIC_LIBRARIES := libswconverter

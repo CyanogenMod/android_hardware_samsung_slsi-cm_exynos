@@ -782,7 +782,8 @@ int ExynosExternalDisplay::postGscM2M(hwc_layer_1_t &layer, struct s3c_fb_win_co
     private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
 
     hwc_frect_t sourceCrop = { 0, 0,
-            WIDTH(layer.displayFrame), HEIGHT(layer.displayFrame) };
+            static_cast<float>(WIDTH(layer.displayFrame)),
+            static_cast<float>(HEIGHT(layer.displayFrame)) };
 
     /* OFF_Screen to ON_Screen changes */
     if (getDrmMode(handle->flags) == SECURE_DRM)

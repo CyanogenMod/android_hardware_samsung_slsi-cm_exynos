@@ -164,7 +164,7 @@ int stretchFimgApi_fast(struct fimg2d_blit *cmd, unsigned long temp_addr, int te
 #ifdef __cplusplus
 extern "C"
 #endif
-int compromiseFimgApi(struct compromise_param *param);
+bool compromiseFimgApi(struct compromise_param *param);
 
 #ifdef __cplusplus
 extern "C"

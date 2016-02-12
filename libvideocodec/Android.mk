@@ -42,6 +42,10 @@ ifeq ($(TARGET_SOC), exynos5433)
 LOCAL_CFLAGS += -DSOC_EXYNOS5430
 endif
 
+ifeq ($(TARGET_SOC), exynos7420)
+LOCAL_CFLAGS += -DSOC_EXYNOS5430
+endif
+
 LOCAL_MODULE := libExynosVideoApi
 LOCAL_MODULE_TAGS := optional
 LOCAL_ARM_MODE := arm

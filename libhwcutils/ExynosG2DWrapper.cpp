@@ -748,7 +748,7 @@ G2D_BUF_ALLOC_FAIL:
     return 1;
 }
 
-int ExynosG2DWrapper::exynos5_config_g2d(hwc_layer_1_t &layer, private_handle_t *dst_handle, s3c_fb_win_config &cfg, int win_idx_2d, int win_idx)
+int ExynosG2DWrapper::exynos5_config_g2d(hwc_layer_1_t &layer, private_handle_t *dst_handle, fb_win_config &cfg, int win_idx_2d, int win_idx)
 {
 #ifdef G2D_COMPOSITION
     int ret = 0;

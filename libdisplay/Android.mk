@@ -50,6 +50,15 @@ endif
 ifeq ($(BOARD_USES_FIMC), true)
 	LOCAL_CFLAGS += -DUSES_FIMC
 endif
+
+# Exynos 5430 onwards use a decon frame buffer device, but still have the
+# old kernel APIs for calling it (S3C_FB_*).
+# Newer SoCs (Exynos 7420 onwards) make use of a new kernel API.
+# WARNING: Support is highly experimental!
+ifneq ($(filter exynos7420, $(TARGET_SOC)),)
+	LOCAL_CFLAGS += -DDECON_FB
+endif
+
 LOCAL_CFLAGS += -DLOG_TAG=\"display\"
 LOCAL_C_INCLUDES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \

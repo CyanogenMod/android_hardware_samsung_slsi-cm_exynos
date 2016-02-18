@@ -49,6 +49,15 @@ ifeq ($(BOARD_USES_FB_PHY_LINEAR),true)
 	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi-cm/exynos/libfimg4x
 	LOCAL_SRC_FILES += ExynosG2DWrapper.cpp
 endif
+
+# Exynos 5430 onwards use a decon frame buffer device, but still have the
+# old kernel APIs for calling it (S3C_FB_*).
+# Newer SoCs (Exynos 7420 onwards) make use of a new kernel API.
+# WARNING: Support is highly experimental!
+ifneq ($(filter exynos7420, $(TARGET_SOC)),)
+	LOCAL_CFLAGS += -DDECON_FB
+endif
+
 LOCAL_CFLAGS += -DLOG_TAG=\"hwcutils\"
 LOCAL_C_INCLUDES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \

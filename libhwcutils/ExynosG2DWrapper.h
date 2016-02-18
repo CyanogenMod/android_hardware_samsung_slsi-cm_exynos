@@ -52,7 +52,7 @@ class ExynosG2DWrapper {
 #endif
         void exynos5_cleanup_g2d(int force);
         int exynos5_g2d_buf_alloc(hwc_display_contents_1_t* contents);
-        int exynos5_config_g2d(hwc_layer_1_t &layer, private_handle_t *dstHandle, s3c_fb_win_config &cfg, int win_idx_2d, int win_idx);
+        int exynos5_config_g2d(hwc_layer_1_t &layer, private_handle_t *dstHandle, fb_win_config &cfg, int win_idx_2d, int win_idx);
 
         ExynosOverlayDisplay *mDisplay;
         ExynosExternalDisplay *mExternalDisplay;

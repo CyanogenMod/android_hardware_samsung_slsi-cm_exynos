@@ -58,18 +58,33 @@ void dumpLayer(hwc_layer_1_t const *l)
         dumpHandle(private_handle_t::dynamicCast(l->handle));
 }
 
-void dumpConfig(s3c_fb_win_config &c)
+void dumpConfig(fb_win_config &c)
 {
     ALOGV("\tstate = %u", c.state);
-    if (c.state == c.S3C_FB_WIN_STATE_BUFFER) {
+    if (c.state == WIN_STATE_BUFFER) {
+#ifdef DECON_FB
+        ALOGV("\t\tfd[0] = %d, fd[1] = %d, fd[2] = %d, "
+              "src.x = %d, src.y = %d, src.w = %u, src.h = %u, "
+              "src.f_w = %u, src.f_h = %u, "
+              "dst.x = %d, dst.y = %d, dst.w = %u, dst.h = %u, "
+              "dst.f_w = %u, dst.f_h = %u, "
+              "format = %u, blending = %u",
+              c.fd_idma[0], c.fd_idma[1], c.fd_idma[2],
+              c.src.x, c.src.y, c.src.w, c.src.h,
+              c.src.f_w, c.src.f_h,
+              c.dst.x, c.dst.y, c.dst.w, c.dst.h,
+              c.dst.f_w, c.dst.f_h,
+              c.format, c.blending);
+#else
         ALOGV("\t\tfd = %d, offset = %u, stride = %u, "
                 "x = %d, y = %d, w = %u, h = %u, "
                 "format = %u, blending = %u",
                 c.fd, c.offset, c.stride,
                 c.x, c.y, c.w, c.h,
                 c.format, c.blending);
+#endif
     }
-    else if (c.state == c.S3C_FB_WIN_STATE_COLOR) {
+    else if (c.state == WIN_STATE_COLOR) {
         ALOGV("\t\tcolor = %u", c.color);
     }
 }
@@ -112,29 +127,9 @@ bool isScaled(const hwc_layer_1_t &layer)
             HEIGHT(layer.displayFrame) != HEIGHT(layer.sourceCropf);
 }
 
-enum s3c_fb_pixel_format halFormatToS3CFormat(int format)
-{
-    switch (format) {
-    case HAL_PIXEL_FORMAT_RGBA_8888:
-        return S3C_FB_PIXEL_FORMAT_RGBA_8888;
-    case HAL_PIXEL_FORMAT_RGBX_8888:
-        return S3C_FB_PIXEL_FORMAT_RGBX_8888;
-    case HAL_PIXEL_FORMAT_RGB_565:
-        return S3C_FB_PIXEL_FORMAT_RGB_565;
-    case HAL_PIXEL_FORMAT_BGRA_8888:
-        return S3C_FB_PIXEL_FORMAT_BGRA_8888;
-#ifdef EXYNOS_SUPPORT_BGRX_8888
-    case HAL_PIXEL_FORMAT_BGRX_8888:
-        return S3C_FB_PIXEL_FORMAT_BGRX_8888;
-#endif
-    default:
-        return S3C_FB_PIXEL_FORMAT_MAX;
-    }
-}
-
 bool isFormatSupported(int format)
 {
-    return halFormatToS3CFormat(format) < S3C_FB_PIXEL_FORMAT_MAX;
+    return halFormatToSocFormat(format) < PIXEL_FORMAT_MAX;
 }
 
 bool isFormatRgb(int format)
@@ -219,24 +214,9 @@ int halFormatToV4L2Format(int format)
         return HAL_PIXEL_FORMAT_2_V4L2_PIX(format);
 }
 
-enum s3c_fb_blending halBlendingToS3CBlending(int32_t blending)
-{
-    switch (blending) {
-    case HWC_BLENDING_NONE:
-        return S3C_FB_BLENDING_NONE;
-    case HWC_BLENDING_PREMULT:
-        return S3C_FB_BLENDING_PREMULT;
-    case HWC_BLENDING_COVERAGE:
-        return S3C_FB_BLENDING_COVERAGE;
-
-    default:
-        return S3C_FB_BLENDING_MAX;
-    }
-}
-
 bool isBlendingSupported(int32_t blending)
 {
-    return halBlendingToS3CBlending(blending) < S3C_FB_BLENDING_MAX;
+    return halBlendingToSocBlending(blending) < BLENDING_MAX;
 }
 
 bool isOffscreen(hwc_layer_1_t &layer, int xres, int yres)

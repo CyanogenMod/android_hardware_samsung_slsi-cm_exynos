@@ -97,7 +97,7 @@ const size_t NUM_HW_WIN_FB_PHY = 5;
 #define DEFAULT_MEDIA_PROCESSOR MEDIA_PROCESSOR_GSC
 #endif
 
-const size_t NUM_HW_WINDOWS = 5;
+const size_t NUM_HW_WINDOWS = SOC_NUM_HW_WINDOWS;
 const size_t NO_FB_NEEDED = NUM_HW_WINDOWS + 1;
 #ifndef FIMD_BW_OVERLAP_CHECK
 const size_t MAX_NUM_FIMD_DMA_CH = 2;

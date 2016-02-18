@@ -492,7 +492,7 @@ void ExynosVirtualDisplay::unmapAddrFBTarget()
 {
     for (int i = 0; i < NUM_FB_TARGET; i++) {
         if (fbTargetInfo[i].fd != -1) {
-            ion_unmap((void *)fbTargetInfo[i].mappedAddr, fbTargetInfo[i].mapSize);
+            ion_unmap((void *)(intptr_t)fbTargetInfo[i].mappedAddr, fbTargetInfo[i].mapSize);
             fbTargetInfo[i].fd = -1;
             fbTargetInfo[i].mappedAddr = 0;
             fbTargetInfo[i].mapSize = 0;

@@ -26,6 +26,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "seiren_hw.h"
 

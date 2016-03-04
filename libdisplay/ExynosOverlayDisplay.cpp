@@ -1,3 +1,6 @@
+#include <cutils/properties.h>
+#include <string>
+
 #include "ExynosOverlayDisplay.h"
 #include "ExynosHWCUtils.h"
 #include "ExynosMPPModule.h"
@@ -748,9 +751,18 @@ void ExynosOverlayDisplay::determineYuvOverlay(hwc_display_contents_1_t *content
 void ExynosOverlayDisplay::determineSupportedOverlays(hwc_display_contents_1_t *contents)
 {
     bool videoLayer = false;
+    int maxHwOverlays;
+    char property[PROPERTY_VALUE_MAX];
 
     mFbNeeded = false;
     mFirstFb = mLastFb = 0;
+
+    // By default, do not change the number of the overlays which are checked
+    // for HWC_OVERLAY support.
+    std::string maxHwOverlaysDefault = std::to_string(contents->numHwLayers);
+    property_get("debug.hwc.max_hw_overlays", property, maxHwOverlaysDefault.c_str());
+    maxHwOverlays = atoi(property);
+    ALOGV("Number of supported hw overlays: %d", maxHwOverlays);
 
     for (size_t i = 0; i < NUM_HW_WINDOWS; i++)
         mPostData.overlay_map[i] = -1;
@@ -770,7 +782,7 @@ void ExynosOverlayDisplay::determineSupportedOverlays(hwc_display_contents_1_t *
             continue;
         }
 
-        if (layer.handle) {
+        if (layer.handle && i < maxHwOverlays) {
             private_handle_t *handle = private_handle_t::dynamicCast(layer.handle);
             if ((int)get_yuv_planes(halFormatToV4L2Format(handle->format)) > 0) {
                 videoLayer = true;

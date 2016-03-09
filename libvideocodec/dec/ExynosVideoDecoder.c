@@ -301,9 +301,9 @@ static void *MFC_Decoder_Init(ExynosVideoInstInfo *pVideoInfo)
         ALOGE("%s: Failed to create ion_client", __func__);
         goto EXIT_QUERYCAP_FAIL;
     }
-    pCtx->hIONHandle = (void *)hIonClient;
+    pCtx->hIONHandle = (void *)(intptr_t)hIonClient;
 
-    pCtx->nPrivateDataShareFD = ion_alloc((ion_client)pCtx->hIONHandle,
+    pCtx->nPrivateDataShareFD = ion_alloc((ion_client)(intptr_t)pCtx->hIONHandle,
                                           sizeof(PrivateDataShareBuffer) * VIDEO_BUFFER_MAX_NUM,
                                           0,
                                           ION_HEAP_SYSTEM_MASK,
@@ -340,8 +340,8 @@ EXIT_QUERYCAP_FAIL:
         pCtx->nPrivateDataShareFD = -1;
     }
 
-    if ((ion_client)pCtx->hIONHandle > 0) {
-        ion_client_destroy((ion_client)pCtx->hIONHandle);
+    if ((ion_client)(intptr_t)pCtx->hIONHandle > 0) {
+        ion_client_destroy((ion_client)(intptr_t)pCtx->hIONHandle);
         pCtx->hIONHandle = NULL;
     }
 
@@ -381,8 +381,8 @@ static ExynosVideoErrorType MFC_Decoder_Finalize(void *pHandle)
         pCtx->nPrivateDataShareFD = -1;
     }
 
-    if ((ion_client)pCtx->hIONHandle > 0) {
-        ion_client_destroy((ion_client)pCtx->hIONHandle);
+    if ((ion_client)(intptr_t)pCtx->hIONHandle > 0) {
+        ion_client_destroy((ion_client)(intptr_t)pCtx->hIONHandle);
         pCtx->hIONHandle = NULL;
     }
 

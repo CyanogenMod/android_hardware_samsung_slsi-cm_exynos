@@ -751,17 +751,15 @@ void ExynosOverlayDisplay::determineYuvOverlay(hwc_display_contents_1_t *content
 void ExynosOverlayDisplay::determineSupportedOverlays(hwc_display_contents_1_t *contents)
 {
     bool videoLayer = false;
+    int maxHwOverlaysDefault = contents->numHwLayers;
     int maxHwOverlays;
-    char property[PROPERTY_VALUE_MAX];
 
     mFbNeeded = false;
     mFirstFb = mLastFb = 0;
 
     // By default, do not change the number of the overlays which are checked
     // for HWC_OVERLAY support.
-    std::string maxHwOverlaysDefault = std::to_string(contents->numHwLayers);
-    property_get("debug.hwc.max_hw_overlays", property, maxHwOverlaysDefault.c_str());
-    maxHwOverlays = atoi(property);
+    maxHwOverlays = property_get_int32("debug.hwc.max_hw_overlays", maxHwOverlaysDefault);
     ALOGV("Number of supported hw overlays: %d", maxHwOverlays);
 
     for (size_t i = 0; i < NUM_HW_WINDOWS; i++)

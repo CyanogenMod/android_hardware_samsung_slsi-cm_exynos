@@ -1,5 +1,4 @@
 #include <cutils/properties.h>
-#include <string>
 
 #include "ExynosOverlayDisplay.h"
 #include "ExynosHWCUtils.h"

@@ -240,7 +240,7 @@ void ExynosOverlayDisplay::configureOtfWindow(hwc_rect_t &displayFrame,
     cfg.y = displayFrame.top;
     cfg.w = WIDTH(displayFrame);
     cfg.h = HEIGHT(displayFrame);
-    cfg.format = halFormatToS3CFormat(format);
+    cfg.format = halFormatToSocFormat(format);
     cfg.offset = 0;
     cfg.stride = cfg.w * bpp / 8;
     cfg.blending = halBlendingToS3CBlending(blending);

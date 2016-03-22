@@ -243,7 +243,7 @@ void ExynosOverlayDisplay::configureOtfWindow(hwc_rect_t &displayFrame,
     cfg.format = halFormatToSocFormat(format);
     cfg.offset = 0;
     cfg.stride = cfg.w * bpp / 8;
-    cfg.blending = halBlendingToS3CBlending(blending);
+    cfg.blending = halBlendingToSocBlending(blending);
     cfg.fence_fd = -1;
     cfg.plane_alpha = 255;
     if (planeAlpha && (planeAlpha < 255)) {

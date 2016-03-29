@@ -208,10 +208,10 @@ void ExynosExternalDisplay::configureHandle(private_handle_t *handle,
     cfg.y = y;
     cfg.w = w;
     cfg.h = h;
-    cfg.format = halFormatToS3CFormat(handle->format);
+    cfg.format = halFormatToSocFormat(handle->format);
     cfg.offset = offset;
     cfg.stride = handle->stride * bpp / 8;
-    cfg.blending = halBlendingToS3CBlending(blending);
+    cfg.blending = halBlendingToSocBlending(blending);
     cfg.fence_fd = fence_fd;
     cfg.plane_alpha = 255;
     if (planeAlpha && (planeAlpha < 255)) {
